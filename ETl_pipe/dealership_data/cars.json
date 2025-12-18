@@ -1,0 +1,20 @@
+[
+    {
+        "car_model": "Renault",
+        "year_of_manufacture": 2010,
+        "price": 2000,
+        "fuel": "Octhane"
+    },
+    {
+        "car_model": "Benz",
+        "year_of_manufacture": 2025,
+        "price": 22000,
+        "fuel": "AH 98"
+    },
+    {
+        "car_model": "Hyundai",
+        "year_of_manufacture": 1999,
+        "price": 1500,
+        "fuel": "Benzin"
+    }
+]
