@@ -4,9 +4,8 @@ import xml.etree.ElementTree as ET
 import json
 from pathlib import Path
 
-data_dir = "dealership_data"
+data_dir = Path.cwd() / "data"
 map_dir = Path.cwd() / "config"
-target_file = "dealership_transformed_data.csv"
 
 
 def get_map():
@@ -42,7 +41,7 @@ def extract_from_xml(path):
     return pd.DataFrame(rows, columns=cols)
 
 
-def extract_all(dir=data_dir):
+def extract_all(dir=(data_dir / "raw_data")):
     df = pd.DataFrame(columns=["car_model", "year_of_manufacture", "price", "fuel"])
 
     for file_pattern, func in get_map().items():
@@ -54,5 +53,3 @@ def extract_all(dir=data_dir):
     return df
 
 
-def load_to_csv(df, csv_file=target_file):
-    df.to_csv(csv_file, index=False)

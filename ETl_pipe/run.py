@@ -1,8 +1,10 @@
 from src.core import *
 from logs.logger import log_event
-from utils.utils import transform
+from utils.utils import transform, load_to_csv
 
 if __name__ == "__main__":
+    target_file = data_dir / "transformed_data.csv"
+
     log_event("ETL Job Started")
 
     log_event("Extract phase Started")
@@ -14,7 +16,7 @@ if __name__ == "__main__":
     log_event("Transform phase Ended")
 
     log_event("Load phase Started")
-    load_to_csv(df)
+    load_to_csv(df, target_file)
     log_event("Load phase Ended")
 
     log_event("ETL Job Ended")
