@@ -5,7 +5,6 @@ import json
 from pathlib import Path
 
 data_dir = Path.cwd() / "data"
-map_dir = Path.cwd() / "config"
 
 
 def error_handler(fn):
@@ -22,7 +21,7 @@ def error_handler(fn):
 
 def get_map():
     map = {}
-    with open(map_dir / "map.json") as f:
+    with open(data_dir / "map.json") as f:
         for line in json.load(f):
             map = map | line
     return map
