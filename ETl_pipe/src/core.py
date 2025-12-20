@@ -8,6 +8,18 @@ data_dir = Path.cwd() / "data"
 map_dir = Path.cwd() / "config"
 
 
+def error_handler(fn):
+    def wrapper(path):
+        try:
+            return fn(path)
+        except ValueError as value_error:
+            return value_error
+        except FileNotFoundError as file_error:
+            return file_error
+
+    return wrapper
+
+
 def get_map():
     map = {}
     with open(map_dir / "map.json") as f:
@@ -16,14 +28,18 @@ def get_map():
     return map
 
 
+@error_handler
 def extract_from_json(path):
+    print(type(path))
     return pd.read_json(path)
 
 
+@error_handler
 def extract_from_csv(path):
     return pd.read_csv(path)
 
 
+@error_handler
 def extract_from_xml(path):
     cols = ["car_model", "year_of_manufacture", "price", "fuel"]
     rows = []
@@ -51,5 +67,3 @@ def extract_all(dir=(data_dir / "raw_data")):
             df = pd.concat([df, new_df], ignore_index=True) if not df.empty else new_df
 
     return df
-
-
