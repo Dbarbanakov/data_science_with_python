@@ -1,7 +1,6 @@
-import glob
 import pandas as pd
+import glob, json
 import xml.etree.ElementTree as ET
-import json
 from pathlib import Path
 
 data_dir = Path.cwd() / "data"
