@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cars>
-  <car category="cooking">
-    <title lang="en">Everyday Italian</title>
+  <car>
     <car_model>Porsche</car_model>
     <year_of_manufacture>2005</year_of_manufacture>
     <price>30000</price>

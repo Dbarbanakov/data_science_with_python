@@ -29,7 +29,6 @@ def get_map():
 
 @error_handler
 def extract_from_json(path):
-    print(type(path))
     return pd.read_json(path)
 
 
