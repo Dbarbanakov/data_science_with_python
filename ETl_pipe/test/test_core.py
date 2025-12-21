@@ -32,16 +32,14 @@ def test_extract_from_json_2():
     assert isinstance(extract_from_json(missing_file), FileNotFoundError)
 
 
-# def test_extract_from_xml_1(get_xml_file):
-#     df1 = extract_from_xml((data_dir / "raw_data/cars.xml"))
-#     df2 = extract_from_xml(get_xml_file)
-#     print(df1)
-#     # print(type(df2))
-#     assert type(df1) == type(df2)
+def test_extract_from_xml_1(get_xml_file):
+    df1 = extract_from_xml((data_dir / "raw_data/cars.xml"))
+    df2 = extract_from_xml(get_xml_file)
+    assert type(df1) == type(df2)
 
 
-# def test_extract_from_xml_2():
-#     json_file = data_dir / "raw_data/cars.json"
-#     missing_file = data_dir / "raw_data/missing_file.xml"
-#     assert isinstance(extract_from_xml(json_file), ValueError)
-#     assert isinstance(extract_from_xml(missing_file), FileNotFoundError)
+def test_extract_from_xml_2():
+    json_file = data_dir / "raw_data/cars.json"
+    missing_file = data_dir / "raw_data/missing_file.xml"
+    assert extract_from_xml(json_file), ET.ParseError
+    assert isinstance(extract_from_xml(missing_file), FileNotFoundError)

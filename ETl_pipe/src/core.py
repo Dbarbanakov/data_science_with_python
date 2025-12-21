@@ -37,22 +37,26 @@ def extract_from_csv(path):
     return pd.read_csv(path)
 
 
-@error_handler
 def extract_from_xml(path):
-    cols = ["car_model", "year_of_manufacture", "price", "fuel"]
-    rows = []
-    tree = ET.parse(path)
-    for elem in tree.getroot():
-        rows.append(
-            {
-                "car_model": elem.find("car_model").text,
-                "year_of_manufacture": int(elem.find("year_of_manufacture").text),
-                "price": float(elem.find("price").text),
-                "fuel": elem.find("fuel").text,
-            }
-        )
+    try:
+        cols = ["car_model", "year_of_manufacture", "price", "fuel"]
+        rows = []
+        tree = ET.parse(path)
+        for elem in tree.getroot():
+            rows.append(
+                {
+                    "car_model": elem.find("car_model").text,
+                    "year_of_manufacture": int(elem.find("year_of_manufacture").text),
+                    "price": float(elem.find("price").text),
+                    "fuel": elem.find("fuel").text,
+                }
+            )
 
-    return pd.DataFrame(rows, columns=cols)
+        return pd.DataFrame(rows, columns=cols)
+    except ET.ParseError as parse_error:
+        return parse_error
+    except FileNotFoundError as file_error:
+        return file_error
 
 
 def extract_all(dir=(data_dir / "raw_data")):

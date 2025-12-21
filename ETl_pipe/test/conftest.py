@@ -2,7 +2,7 @@ import pytest
 import pandas as pd
 import csv
 import json
-from dicttoxml import dicttoxml
+import xml.etree.ElementTree as ET
 
 
 def get_data():
@@ -45,16 +45,20 @@ def get_test_df_from_json(get_json_file):
     yield pd.read_json(get_json_file)
 
 
-# @pytest.fixture(scope="module")
-# def get_xml_file(tmpdir_factory):
-#     xml_file = tmpdir_factory.mktemp("data").join("test_file.xml")
-#     data = get_data()
-#     xml_data = dicttoxml({"car": data}, custom_root="cars")
-#     with open(xml_file, "wb") as file:
-#         file.write(xml_data)
-#     print(type(xml_file))
-#     return xml_file
+@pytest.fixture(scope="module")
+def get_xml_file(tmpdir_factory):
+    xml_file = tmpdir_factory.mktemp("data").join("test_file.xml")
+    data = get_data()
+    root = ET.Element("cars")
+    tree = ET.ElementTree(root)
+    ver = ET.SubElement(root, "car")
 
+    for k, v in data.items():
+        ele = ET.SubElement(ver, k)
+        ele.text = str(v)
+
+    tree.write(open(xml_file, "wb"))
+    return str(xml_file)
 
 
 # @pytest.fixture(scope="module")
