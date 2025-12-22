@@ -30,6 +30,11 @@ def test_extract_from_xml():
     assert isinstance(extract_from_xml(missing_file), FileNotFoundError)
 
 
-def test_extractions(fill_test_dir):
-    df = extract_all(fill_test_dir)
+def test_extractions(get_test_dir, fill_test_dir):
+    populate_dir = fill_test_dir
+    assert populate_dir is True
+
+    dir = get_test_dir
+
+    df = extract_all(dir)
     assert type(df) is pd.core.frame.DataFrame

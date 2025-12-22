@@ -1,7 +1,6 @@
 import pytest
 import csv, json
 import xml.etree.ElementTree as ET
-import shutil
 
 
 def get_data():
@@ -14,9 +13,15 @@ def get_data():
 
 
 @pytest.fixture(scope="session")
-def get_test_csv_file(tmp_path_factory):
-    csv_file = tmp_path_factory.mktemp("data") / "test_file.csv"
+def get_test_dir(tmp_path_factory):
+    dir = tmp_path_factory.mktemp("data", numbered=False)
+    if dir.exists():
+        return dir
 
+
+@pytest.fixture(scope="session")
+def get_test_csv_file(get_test_dir):
+    csv_file = get_test_dir / "test_file.csv"
     data = get_data()
     headers = data.keys()
 
@@ -29,8 +34,8 @@ def get_test_csv_file(tmp_path_factory):
 
 
 @pytest.fixture(scope="session")
-def get_test_json_file(tmp_path_factory):
-    json_file = tmp_path_factory.mktemp("data") / "test_file.json"
+def get_test_json_file(get_test_dir):
+    json_file = get_test_dir / "test_file.json"
     data = [get_data()]
 
     with open(json_file, "w") as file:
@@ -40,9 +45,8 @@ def get_test_json_file(tmp_path_factory):
 
 
 @pytest.fixture(scope="session")
-def get_test_xml_file(tmp_path_factory):
-
-    xml_file = tmp_path_factory.mktemp("data") / "test_file.xml"
+def get_test_xml_file(get_test_dir):
+    xml_file = get_test_dir / "test_file.xml"
     data = get_data()
     root = ET.Element("cars")
     tree = ET.ElementTree(root)
@@ -54,15 +58,16 @@ def get_test_xml_file(tmp_path_factory):
 
     tree.write(open(xml_file, "wb"))
 
-    return str(xml_file)
+    return xml_file
 
 
 @pytest.fixture(scope="session")
-def fill_test_dir(
-    tmp_path_factory, get_test_csv_file, get_test_json_file, get_test_xml_file
-):
-    test_dir = tmp_path_factory.mktemp("test_dir")
+def fill_test_dir(get_test_csv_file, get_test_json_file, get_test_xml_file):
+
     files = [get_test_csv_file, get_test_json_file, get_test_xml_file]
+
     for file in files:
-        shutil.move(file, test_dir)
-    return test_dir
+        get_file = file
+        assert get_file.is_file() is True
+    
+    return True
