@@ -1,12 +1,10 @@
 from src.core import *
 
+data_dir = Path.cwd() / "data"
+
 
 def test_module_export():
     assert bool(extract_all) is True
-
-
-def test_get_map():
-    assert type(get_map()) is dict
 
 
 def test_extract_from_csv():

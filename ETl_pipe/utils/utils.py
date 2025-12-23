@@ -9,13 +9,13 @@ nan_values_file = data_dir / "dropped_data/nan_values.csv"
 
 def handle_duplicates(df):
     duplicate_df = df[df.duplicated()]
-    load_to_csv(duplicate_df, duplicates_file)
+    duplicate_df.to_csv(duplicates_file, index=False)
     return df.drop_duplicates()
 
 
 def handle_nan(df):
     nan_df = df[df.isnull().any(axis=1)]
-    load_to_csv(nan_df, nan_values_file)
+    nan_df.to_csv(nan_values_file, index=False)
     return df.dropna(subset=["price", "car_model"])
 
 
@@ -28,7 +28,3 @@ def transform(df):
     )
     df.reset_index(drop=True, inplace=True)
     return df
-
-
-def load_to_csv(df, csv_file):
-    df.to_csv(csv_file, index=False)
